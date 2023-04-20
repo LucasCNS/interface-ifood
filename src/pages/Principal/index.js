@@ -1,61 +1,99 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useState, useEffect} from 'react';
-import { Text, View, SafeAreaView, Alert, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, Alert, ActivityIndicator } from 'react-native';
+import {
+  SafeAreaView,
+  ViewActivity,
+  CategoriaView,
+  BannerView,
+  ViewPrincipal,
+  ViewRestaurantes,
+  TituloRestaurantes,
+  ButtonTipoSelect,
+  TextTipoSelect,
+  SelectTipo
+} from './style';
 
-import { } from './style';
+import RestauranteItem from '../../components/RestauranteItem'
 
 export default function Principal() {
 
-  const [banners, setBanner] = useState([]);
-  const [categorias, setCategorias] = useState([]);
-  const [restaurantes, setRestaurantes] = useState([]);
-  const [loaded, setLoeaded] = useState(false);
+  const [banners, setBanners] = useState([])
+  const [categorias, setCategorias] = useState([])
+  const [restaurantes, setRestaurantes] = useState([])
+  const [loaded, setLoaded] = useState(false)
+  const [tipo, setTipo] = useState('Entrega');
 
-  useEffect(()=>{
-    
-    async function buscaDados(){
 
-      try{
-      
-        const response = await fetch('https://my-json-server.typicode.com/pablohdev/app-ifood-clone/db')
+  useEffect(() => {
+
+    async function buscaDados() {
+
+      try {
+
+        const response = await fetch('http://my-json-server.typicode.com/pablohdev/app-ifood-clone/db');
+
         const data = await response.json();
 
-        setLoeaded(true);
+        setLoaded(true)
 
-        setBanner(data.banner_principal);
-        setCategorias(data.banner_categorias);
-        setRestaurantes(data.banner_restaurantes);
-      
-      }catch(e){
-        
-        Alert.alert('Erro ao consultar'+e)
+        setBanners(data.banner_principal);
+        setCategorias(data.categorias);
+        setRestaurantes(data.restaurantes);
+
+      } catch (e) {
+
+        Alert.alert('Erro consultada' + e);
+
       }
+
     }
+    buscaDados()
 
-    buscaDados();
+  }, [])
 
-  },[]) //Esse array no final é para executar somente uma vez. Se não estivesse aí, seria um loop.
-
-  const ViewHome = (props)=>{
-    return(
-      <Text>Principal</Text>
+  const ViewHome = (props) => {
+    return (
+      <ViewPrincipal>
+        
+        <TituloRestaurantes>Restaurantes</TituloRestaurantes>
+        <ViewRestaurantes>
+          {restaurantes.map(restaurante => (
+            <>
+              <RestauranteItem
+                key={restaurante.id}
+                foto={restaurante.url_img}
+                nome={restaurante.nome}
+                nota={restaurante.nota}
+                categoria={restaurante.categoria}
+                distancia={restaurante.distancia}
+                valorFrete={restaurante.valor_frete}
+                tempoEntrega={restaurante.tempo_entrega}
+              />
+            </>
+          ))}
+        </ViewRestaurantes>
+      </ViewPrincipal>
     )
   }
 
-
   return (
     <>
-      <StatusBar style="theme-dark"></StatusBar> 
-        <SafeAreaView>  
-          {loaded ?(
-            <ViewHome/>
-          ):
+      <StatusBar style="theme-dark" />
+      <SafeAreaView>
+        {loaded
+          ?
           (
-            <View>
-              <ActivityIndicator color='#F0001A' size='large' />
-            </View>
+            <ViewHome />
+          )
+          :
+          (
+            <ViewActivity >
+              <ActivityIndicator color="#F0001A" size="large" />
+              <Text>Carregando dados aguarde...{loaded}</Text>
+            </ViewActivity>
           )}
-        </SafeAreaView>
+      </SafeAreaView>
     </>
   );
 }
