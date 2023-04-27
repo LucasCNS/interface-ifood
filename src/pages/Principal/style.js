@@ -55,12 +55,12 @@ export const SelectTipo = styled.View`
 `       /* Width vai identificar o tamanho da tela e transformar em pixels */
 export const ButtonTipoSelect = styled.TouchableOpacity`
 
-        margin-rigth: 20px;
+        margin-right: 20px;
 `
 export const TextTipoSelect = styled.Text`
 
         ${props => props.selected ? css`
-                font-weight:bold;
+                font-weight: bold;
                 color: #F0001A;
                 ` : css``}
 `
