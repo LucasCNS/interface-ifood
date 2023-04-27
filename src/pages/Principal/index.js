@@ -14,9 +14,17 @@ import {
   SelectTipo
 } from './style';
 
+
+
+import CategoriaItem from '../../components/CategoriaItem'
+
+import BannerItem from '../../components/BannerItem'
+
 import RestauranteItem from '../../components/RestauranteItem'
 
+
 export default function Principal() {
+
 
   const [banners, setBanners] = useState([])
   const [categorias, setCategorias] = useState([])
@@ -27,6 +35,7 @@ export default function Principal() {
 
   useEffect(() => {
 
+
     async function buscaDados() {
 
       try {
@@ -35,11 +44,14 @@ export default function Principal() {
 
         const data = await response.json();
 
+
         setLoaded(true)
+
 
         setBanners(data.banner_principal);
         setCategorias(data.categorias);
         setRestaurantes(data.restaurantes);
+
 
       } catch (e) {
 
@@ -48,14 +60,27 @@ export default function Principal() {
       }
 
     }
+
     buscaDados()
 
+
   }, [])
+
+
 
   const ViewHome = (props) => {
     return (
       <ViewPrincipal>
-        
+        <CategoriaView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {categorias.map(categoria => (
+            <CategoriaItem key={categoria.id} foto={categoria.img_url} texto={categoria.nome} />
+          ))}
+        </CategoriaView>
+        <BannerView horizontal={true} showsHorizontalScrollIndicator={false}>
+          {banners.map(banner => (
+            <BannerItem key={banner.id} foto={banner.banner_img_url} />
+          ))}
+        </BannerView>
         <TituloRestaurantes>Restaurantes</TituloRestaurantes>
         <ViewRestaurantes>
           {restaurantes.map(restaurante => (

@@ -22,6 +22,6 @@ export const RestauranteInfo = styled.View`
 `
 export const RestauranteFoto = styled.Image`
 
-        border-radius: 25;
+        border-radius: 25px;
 
 `

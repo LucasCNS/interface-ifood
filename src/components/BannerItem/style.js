@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const BannerView = styled.view`
+export const BannerView = styled.View`
 
   margin-left: 20px;
   margin-rigth: 10px;
@@ -8,5 +8,6 @@ export const BannerView = styled.view`
 `
 
 export const BannerFoto = styled.Image`
+  
   border-radius: 10px;
 `

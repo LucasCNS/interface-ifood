@@ -3,7 +3,7 @@ export default function Perfil() {
     <>
       <StatusBar style="theme-dark"></StatusBar> 
         <SafeAreaView>  
-          <Text>Perfilzinho</Text>
+          <Text>Perfil</Text>
         </SafeAreaView>
     </>
   );
